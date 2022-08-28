@@ -1,52 +1,69 @@
-let playGame = confirm("Shall we play Rock, Paper, Scissors")
-const playerChoice = document.getElementById('player-choice')
+const playerChoiceEl = document.getElementById('player-choice')
+const rockChoice = document.getElementById('rock')
 const computerChoiceEl = document.getElementById('computer-choice')
 const winnerEl = document.getElementById('winner')
-
-if (playGame) {
-    let playerchoice = prompt("Please enter rock, paper or scissors: ")
-    if (playerchoice) {
-        var playerOne = playerchoice.trim().toLowerCase()
-        if (playerOne === 'rock' || playerOne === 'paper' || playerOne === 'scissors') {
-            let computerChoice = Math.ceil(Math.random() * 3)
-            var computer
-            if (computerChoice === 1) {
-                computer = 'rock'
-            } else if (computerChoice === 2) {
-                computer = 'paper'
-            } else {
-                computer = 'scissors'
-            }
-
-            playerChoice.innerHTML = `Choice: ${playerOne.toUpperCase()}`
-            computerChoiceEl.innerHTML = `Choice: ${computer.toUpperCase()}`
-            var winner = getWinner(playerOne, computer)
-
-            winnerEl.innerHTML = `Results Out 😍<br>${winner}`
+const choices = document.querySelectorAll('span')
+const gamePlay = document.querySelector('.game-play')
+const results = document.querySelector('.results')
+const playAgainBtn = document.querySelector('.btn')
 
 
-        } else {
-            alert("You need to pick either rock, paper or scissors")
-        }
-    } else {
-        alert("Oops, play again next time then")
+choices.forEach((choice) => choice.addEventListener("click", () => {
+
+        gamePlay.classList.add("is-hidden")
+        results.classList.remove("is-hidden")
+        setUserChoice(choice.id)
+
     }
-} else {
-    alert("Okay, see you")
+
+));
+
+playAgainBtn.addEventListener("click", () => {
+    gamePlay.classList.remove("is-hidden")
+    results.classList.add("is-hidden")
+})
+
+function setUserChoice(playerChoice) {
+
+    // var playerchoice = prompt("Please enter rock, paper or scissors: ")
+
+
+
+    let computerChoice = Math.ceil(Math.random() * 3)
+    var computer
+    if (computerChoice === 1) {
+        computer = 'rock'
+    } else if (computerChoice === 2) {
+        computer = 'paper'
+    } else {
+        computer = 'scissors'
+    }
+
+    playerChoiceEl.innerHTML = `Choice: ${playerChoice.toUpperCase()}`
+    computerChoiceEl.innerHTML = `Choice: ${computer.toUpperCase()}`
+    var winner = getWinner(playerChoice, computer)
+
+    winnerEl.innerHTML = `Results Out 😍<br><br><br>${winner}`
+    console.log(winner);
+
+
+
+
 }
+
 
 function getWinner(player, computer) {
 
     if (player === computer) {
         return "Tie Game"
     } else if (player === 'rock' && computer === 'paper') {
-        return `You: ${playerOne}<br>Computer: ${computer}<br>Computer wins`
+        return `Computer wins`
     } else if (player === 'paper' && computer === 'scissors') {
-        return `You: ${playerOne}<br>Computer: ${computer}\nComputer wins`
+        return `Computer wins`
     } else if (player === 'scissors' && computer === 'rock') {
-        return `You: ${playerOne}<br>Computer: ${computer}<br>Computer wins`
+        return `Computer wins`
     } else {
-        return `You: ${playerOne}<br>Computer: ${computer}<br>You win`
+        return `You win`
 
     }
 }
